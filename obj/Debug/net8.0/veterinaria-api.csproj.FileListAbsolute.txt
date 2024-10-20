@@ -66,3 +66,4 @@ C:\Users\dleon\OneDrive\Escritorio\APIS\veterinaria_api\veterinaria-api\obj\Debu
 C:\Users\dleon\OneDrive\Escritorio\APIS\veterinaria_api\veterinaria-api\obj\Debug\net8.0\veterinaria-api.pdb
 C:\Users\dleon\OneDrive\Escritorio\APIS\veterinaria_api\veterinaria-api\obj\Debug\net8.0\veterinaria-api.genruntimeconfig.cache
 C:\Users\dleon\OneDrive\Escritorio\APIS\veterinaria_api\veterinaria-api\obj\Debug\net8.0\ref\veterinaria-api.dll
+C:\Users\dleon\OneDrive\Escritorio\APIS\veterinaria_api\veterinaria-api\obj\Debug\net8.0\veterinaria-api.sourcelink.json
