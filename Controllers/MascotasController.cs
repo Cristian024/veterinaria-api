@@ -46,6 +46,7 @@ public class MascotasController : ControllerBase
         {
             return NotFound();
         }
+        mascota.Mas_Id = id;
         await _mascotaRepository.UpdateAsync(mascota);
         return Ok(mascota);
     }

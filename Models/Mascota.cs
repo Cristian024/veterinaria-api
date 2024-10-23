@@ -1,7 +1,7 @@
 namespace Models;
 
 public class Mascota{
-    public int Mas_Id { get; set; }
+    public int? Mas_Id { get; set; }
     public string? Mas_Nombre { get; set; }
     public string? Mas_Peso{ get; set; }
     public string? Mas_Color{ get; set; }

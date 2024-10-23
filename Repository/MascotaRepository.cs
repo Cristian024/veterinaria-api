@@ -20,6 +20,7 @@ public class MascotaRepository : IMascotaRepository
     {
         using (var connection = Connection)
         {
+            entity.Mas_Id = null;
             await connection.ExecuteAsync(
                 $"INSERT INTO Mascotas({Database.GetNameAttributes(entity)}) VALUES({Database.GetNameAttributesInsertion(entity)})",
                 entity
@@ -55,10 +56,21 @@ public class MascotaRepository : IMascotaRepository
     {
         using (var connection = Connection)
         {
-            await connection.QueryAsync<Mascota>(
+
+            var query = $"UPDATE Mascotas SET {Database.GetNameAttributesUpdate(mascota)} WHERE Mas_Id = @Mas_Id";
+
+            await connection.OpenAsync();
+
+            using(var command = new SqliteCommand(query, connection)){
+                Database.AddParametersInNonQuery(command, mascota);
+
+                await command.ExecuteNonQueryAsync();
+            }
+
+            /*await connection.QueryAsync<Mascota>(
                 $"UPDATE Mascotas SET {Database.GetNameAttributesUpdate(mascota)} WHERE Mas_Id = @Mas_Id"
                 , mascota
-            );
+            );*/
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.Reflection;
+using Microsoft.Data.Sqlite;
 
 namespace Helpers;
 class Database
@@ -49,7 +50,9 @@ class Database
 
         foreach (PropertyInfo property in properties)
         {
-            result += property.Name + " = @" + property.Name + ", ";
+            if(property.GetValue(obj) != null){
+                result += property.Name + " = @" + property.Name + ", ";
+            }
         }
 
         if (result.EndsWith(", "))
@@ -58,6 +61,16 @@ class Database
         }
 
         return result;
+    }
+
+    public static void AddParametersInNonQuery(SqliteCommand command, object obj) {
+
+        var parameters = GetProperties(obj);
+
+        foreach (var parameter in parameters)
+        {
+            command.Parameters.AddWithValue($"@{parameter.Name}", parameter.GetValue(obj));
+        }
     }
 
     private static PropertyInfo[] GetProperties(object obj)
