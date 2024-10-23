@@ -12,7 +12,10 @@ class Database
 
         foreach (PropertyInfo property in properties)
         {
-            result += property.Name + ", ";
+            if (property.GetValue(obj) != null)
+            {
+                result += property.Name + ", ";
+            }
         }
 
         if (result.EndsWith(", "))
@@ -31,7 +34,9 @@ class Database
 
         foreach (PropertyInfo property in properties)
         {
-            result += "@" + property.Name + ", ";
+            if(property.GetValue(obj) != null){
+                result += "@" + property.Name + ", ";
+            }
         }
 
         if (result.EndsWith(", "))
@@ -50,7 +55,8 @@ class Database
 
         foreach (PropertyInfo property in properties)
         {
-            if(property.GetValue(obj) != null){
+            if (property.GetValue(obj) != null)
+            {
                 result += property.Name + " = @" + property.Name + ", ";
             }
         }
@@ -63,7 +69,8 @@ class Database
         return result;
     }
 
-    public static void AddParametersInNonQuery(SqliteCommand command, object obj) {
+    public static void AddParametersInNonQuery(SqliteCommand command, object obj)
+    {
 
         var parameters = GetProperties(obj);
 
