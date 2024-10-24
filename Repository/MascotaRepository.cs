@@ -20,10 +20,16 @@ public class MascotaRepository : IMascotaRepository
     {
         using (var connection = Connection)
         {
-            await connection.ExecuteAsync(
-                $"INSERT INTO Mascotas({Database.GetNameAttributes(entity)}) VALUES({Database.GetNameAttributesInsertion(entity)})",
-                entity
-            );
+            entity.Mas_Id = null;
+
+            var query = $@"
+            INSERT INTO Mascotas({Database.GetNameAttributes(entity)}) 
+            VALUES({Database.GetNameAttributesInsertion(entity)});
+            SELECT last_insert_rowid();";
+
+            var lastInsertedId = await connection.ExecuteScalarAsync<long>(query, entity);
+
+            entity.Mas_Id = (int)lastInsertedId;
         }
     }
 
@@ -55,10 +61,22 @@ public class MascotaRepository : IMascotaRepository
     {
         using (var connection = Connection)
         {
-            await connection.QueryAsync<Mascota>(
+
+            var query = $"UPDATE Mascotas SET {Database.GetNameAttributesUpdate(mascota)} WHERE Mas_Id = @Mas_Id";
+
+            await connection.OpenAsync();
+
+            using (var command = new SqliteCommand(query, connection))
+            {
+                Database.AddParametersInNonQuery(command, mascota);
+
+                await command.ExecuteNonQueryAsync();
+            }
+
+            /*await connection.QueryAsync<Mascota>(
                 $"UPDATE Mascotas SET {Database.GetNameAttributesUpdate(mascota)} WHERE Mas_Id = @Mas_Id"
                 , mascota
-            );
+            );*/
         }
     }
 }
